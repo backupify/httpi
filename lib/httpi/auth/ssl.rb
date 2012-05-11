@@ -10,12 +10,24 @@ module HTTPI
 
       VERIFY_MODES = [:none, :peer, :fail_if_no_peer_cert, :client_once]
       CERT_TYPES = [:pem, :der]
+      SSL_VERSIONS = [:TLSv1, :SSLv2, :SSLv3]
 
       # Returns whether SSL configuration is present.
       def present?
         (verify_mode == :none) || (cert && cert_key) || ca_cert_file
       rescue TypeError, Errno::ENOENT
         false
+      end
+
+      # Returns the SSL version number. Defaults to <tt>nil</tt> (auto-negotiate).
+      def ssl_version
+        @ssl_version
+      end
+
+      # Sets the SSL version number. Expects one of <tt>HTTPI::Auth::SSL::SSL_VERSIONS</tt>.
+      def ssl_version=(version)
+        raise ArgumentError, "Invalid SSL version: #{version}" unless SSL_VERSIONS.include? version
+        @ssl_version = version
       end
 
       # Accessor for the cert key file to validate SSL certificates.
