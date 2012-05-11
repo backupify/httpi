@@ -11,7 +11,6 @@ module HTTPI
     class NetHTTP
 
       def initialize(request)
-        request.ssl_version = "SSLv3"
         self.client = new_client request
       end
 
@@ -80,6 +79,7 @@ module HTTPI
 
       def setup_client(request)
         client.use_ssl = request.ssl?
+        client.ssl_version = "SSLv3"
         client.open_timeout = request.open_timeout if request.open_timeout
         client.read_timeout = request.read_timeout if request.read_timeout
       end
