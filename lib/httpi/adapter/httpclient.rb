@@ -82,6 +82,7 @@ module HTTPI
 
       def setup_ssl_auth(ssl)
         unless ssl.verify_mode == :none
+          client.ssl_config.ssl_version = ssl.ssl_version.to_s if ssl.ssl_version
           client.ssl_config.client_cert = ssl.cert
           client.ssl_config.client_key = ssl.cert_key
           client.ssl_config.client_ca = ssl.ca_cert if ssl.ca_cert_file
