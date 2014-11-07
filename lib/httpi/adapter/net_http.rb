@@ -79,7 +79,6 @@ module HTTPI
 
       def setup_client(request)
         client.use_ssl = request.ssl?
-        client.ssl_version = "SSLv3"
         client.open_timeout = request.open_timeout if request.open_timeout
         client.read_timeout = request.read_timeout if request.read_timeout
       end
@@ -89,6 +88,7 @@ module HTTPI
         client.cert = ssl.cert
         client.ca_file = ssl.ca_cert_file if ssl.ca_cert_file
         client.verify_mode = ssl.openssl_verify_mode
+        client.ssl_version = ssl.ssl_version.to_s if ssl.ssl_version
       end
 
       def request_client(type, request)

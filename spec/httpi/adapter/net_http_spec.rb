@@ -130,6 +130,13 @@ describe HTTPI::Adapter::NetHTTP do
 
         adapter(ssl_auth_request).get(ssl_auth_request)
       end
+
+      it "should set ssl_version if specified" do
+        ssl_auth_request.auth.ssl.ssl_version = :TLSv1
+        net_http.expects(:ssl_version=).with(ssl_auth_request.auth.ssl.ssl_version.to_s)
+
+        adapter(ssl_auth_request).get(ssl_auth_request)
+      end
     end
   end
 
